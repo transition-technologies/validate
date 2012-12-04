@@ -11,7 +11,7 @@ Usage
 To use validation plugin simply add it to your application (see [Installation](#Installation))
 and use validation annotations for method parameters wherever you like (not only in controllers), ex:
 ```@Required @Min @Date @Email @InPast``` etc. all will work just fine.
-Also custom validation with ```@CheckWith(YourCheck.class)``` or custom annotation works with no custom code required.
+Also validation with ```@CheckWith(YourCheck.class)``` or custom annotations works just fine.
 
 (You can find more details about them [here](http://www.playframework.org/documentation/1.2.5/validation#annotations))
 
@@ -28,19 +28,13 @@ This will make it default for every validated method in your app
 * Use ```@Validate``` annotation on validated method with ```throwException``` parameter<br>
 This will override default or property configured behavior for this single method. Just in case you need it.
 
-How does it work
-----------------
-Validate module connects to Play compilation process and checks for all methods that have validation annotations
-on parameters. In every such method a new line of code is injected in method that will process
-all these parameters on runtime and check if they conform validation requirements.
-
 Installation
 ------------
 Add repository and dependency to your dependencies.yml:
   
     require:
 		- play
-		- pl.com.tt.play.modules -> validate 1.0
+		- pl.com.tt.play.modules -> validate 1.1
 	repositories:
 		- pl.com.tt.play.modules:
 			type:       http
@@ -48,3 +42,13 @@ Add repository and dependency to your dependencies.yml:
 			descriptor: http://cloud.github.com/downloads/transition-technologies/[module]/[module]-[revision].yml
 			contains:
 				- pl.com.tt.play.modules -> *
+
+How does it work
+----------------
+Validate module connects to Play compilation process and checks for all methods that have validation annotations
+on parameters. In every such method a new line of code is injected in method that will process
+all these parameters on runtime and check if they conform validation requirements.
+
+Validation is processed using exactly same mechanisms as stock Play validation, so your validators will work
+exactly like they work in controllers.
+
