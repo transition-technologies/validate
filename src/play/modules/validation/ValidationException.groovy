@@ -1,6 +1,7 @@
 package play.modules.validation
 
 import play.data.validation.Error
+import play.data.validation.Validation
 
 /**
  * Exception showing that data validation has failed.
@@ -43,6 +44,18 @@ public class ValidationException extends RuntimeException {
      */
     public List<Error> getErrors() {
         return Collections.unmodifiableList(validationErrors)
+    }
+
+    /**
+     * Fill current thread validation object (from stock Play validation
+     * mechanism) with errors collected by this exception.
+     */
+    public void fillValidation() {
+        Validation validation = Validation.current()
+        errors.each {error ->
+            //FIXME: Using package private fields, be more elegant please :)
+            validation.addError(error.key, error.message, error.variables)
+        }
     }
 
     /**
