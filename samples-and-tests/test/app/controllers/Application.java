@@ -1,8 +1,10 @@
 package controllers;
 
 import play.*;
+import play.data.validation.Required;
 import play.mvc.*;
 
+import java.lang.String;
 import java.util.*;
 
 import models.*;
@@ -15,4 +17,16 @@ public class Application extends Controller {
         render();
     }
 
+    public static void controllerMethod(@Required String param) {
+
+    }
+
+    @Util
+    public static void util(@Required String param) {
+
+    }
+
+    private static void privateMethod(@Required String param) {
+
+    }
 }

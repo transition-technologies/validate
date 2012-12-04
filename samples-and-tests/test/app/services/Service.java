@@ -13,6 +13,8 @@ public class Service {
 
     public void validateRequired(@Required String notEmpty) {
         System.out.println("Required");
+        String a = "asd";
+        System.out.println(a);
     }
 
     public void validateMultiple(@Required String notEmpty, @Email String email, @InPast Date date) {
