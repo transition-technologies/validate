@@ -28,6 +28,7 @@
 
     <target name="build" depends="check">
         <delete dir="tmp"/>
+		<delete dir="target"/>
 
         <mkdir dir="tmp/classes"/>
 
@@ -57,6 +58,8 @@
                 </section>
             </manifest>
         </jar>
+		
+		<delete dir="tmp"/>
     </target>
 
 </project>

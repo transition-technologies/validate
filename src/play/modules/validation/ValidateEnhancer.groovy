@@ -17,13 +17,35 @@ import play.mvc.Util
 import static javassist.Modifier.*
 
 /**
+ * Playframework class enhancer adding method parameters validation to
+ * all classes that require it.
+ * <p/>
+ * Conditions for method to have validation injected:
+ * <ul>
+ *     <li>Method is not Play controller method (not a public static method in controller class) or has {@link Util} annotation</li>
+ *     <li>Method is not abstract</li>
+ *     <li>Method has at least one parameter annotated with annotation that is a {@link Constraint}</li>
+ * </ul>
  *
  * @author Marek Piechut <m.piechut@tt.com.pl>
  */
 public class ValidateEnhancer extends Enhancer {
 
+    /**
+     * Name of auto-generated static field that will keep map
+     * of original parameter names so they can be retrieved in runtime
+     * (there's no way to retrieve parameter names via reflection)
+     */
     static final String PARAMETER_NAMES_FIELD = '$$validation_method_parameters$$'
 
+    /**
+     * Check if class should be enhanced
+     * and add validation as first step to all methods
+     * that have parameters annotated with validation annotations.
+     *
+     * @param ac class to enhance
+     * @throws Exception
+     */
     @Override
     public void enhanceThisClass(ApplicationClass ac)
     throws Exception {
@@ -45,6 +67,13 @@ public class ValidateEnhancer extends Enhancer {
         }
     }
 
+    /**
+     * Collect original parameter names and store them in generated static field
+     * for reference when generating validation error messages (which parameter failed validation)
+     *
+     * @param clazz
+     * @param method
+     */
     private def collectParameterNames(CtClass clazz, CtMethod method) {
         Logger.debug "Collecting parameter names for validated methods in ${clazz.name}"
 
@@ -60,6 +89,7 @@ public class ValidateEnhancer extends Enhancer {
             for (i in (0..<method.parameterTypes.length)) {
                 int j = i
                 if (!isStatic) {
+                    //Non static methods have 1st implicit parameter - this. We don't need it.
                     ++j
                 }
                 def varName = localVars.variableName(j)
@@ -72,6 +102,11 @@ public class ValidateEnhancer extends Enhancer {
         initializer.insertAfter(code)
     }
 
+    /**
+     * Create parameter names map field in processed class if needed
+     * @param clazz
+     * @return
+     */
     private def initializeMethodParamsField(CtClass clazz) {
         try {
             clazz.getDeclaredField(PARAMETER_NAMES_FIELD)
@@ -82,6 +117,12 @@ public class ValidateEnhancer extends Enhancer {
         }
     }
 
+    /**
+     * Insert ValidatePlugin.validateMethod call in the beginning of a method
+     * @param clazz
+     * @param method
+     * @return
+     */
     private def enhanceMethod(CtClass clazz, CtMethod method) {
         use(ModifiersCategory) {
             Logger.debug "Enhancing: ${method.longName}"
@@ -94,15 +135,26 @@ public class ValidateEnhancer extends Enhancer {
         }
     }
 
+    /**
+     * Check if class should be nehanced
+     * @param clazz
+     * @return
+     */
     private boolean shouldEnhance(CtClass clazz) {
         use(ModifiersCategory) {
             return !clazz.hasModifier(ABSTRACT)
         }
     }
 
+    /**
+     * Check if method should be enhanced
+     *
+     * @param clazz
+     * @param method
+     * @return
+     */
     private boolean shouldEnhance(CtClass clazz, CtMethod method) {
         //Ignore controller methods that are not utilities, they have OOTB play validation
-        boolean enhance = false
         use(ModifiersCategory) {
             return ((!clazz.subtypeOf(classPool.get(ControllersEnhancer.ControllerSupport.class.name))
                     || !method.hasExactModifier(PUBLIC, STATIC)
@@ -124,6 +176,11 @@ public class ValidateEnhancer extends Enhancer {
         return false
     }
 
+    /**
+     * Check if method has at least one parameter that has to be validated
+     * @param method
+     * @return
+     */
     private boolean hasValidatedParameter(method) {
         def allAnnotations = method.methodInfo?.getAttribute(ParameterAnnotationsAttribute.visibleTag)?.annotations
         for (paramAnnotations in allAnnotations) {

@@ -30,11 +30,11 @@ under the License.
     <modelVersion>4.0.0</modelVersion>
     <groupId>pl.com.tt.play.modules</groupId>
     <artifactId>play-validate</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>Play! Validators Module</name>
-    <description>Play! Validators Module</description>
+    <name>Play! Validate Module</name>
+    <description>Play! Validate Module</description>
 
     <distributionManagement>
         <repository>

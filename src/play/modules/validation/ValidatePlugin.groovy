@@ -26,6 +26,19 @@ public class ValidatePlugin extends PlayPlugin {
         enhancer.enhanceThisClass(applicationClass)
     }
 
+    /**
+     * Execute method parameters validation for passed in method.
+     * Validation should be configured using standard Playframework validation
+     * annotation mechanisms.
+     *
+     * @param clazz Class validated method is declared in
+     * @param object Object validation should be executed for (instance for non-static method). Will be null for static methods.
+     * @param methodName name of validated method
+     * @param paramTypes validated method parameter types
+     * @param params validated method parameters (objects that will actually be validated
+     *
+     * @throws ValidationException thrown if validation failed and validation engine was configured for exception throwing
+     */
     public static void validateMethod(Class clazz, Object object, String methodName, Class[] paramTypes, Object[] params)
     throws ValidationException {
         def validator = new MethodValidator()
