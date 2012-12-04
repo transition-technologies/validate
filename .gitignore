@@ -1,0 +1,16 @@
+*.pyc
+tmp
+dist
+test-result
+logs
+*.log
+.classpath
+.project
+build.sh
+target
+.idea
+precompiled
+*.iml
+/lib/
+/samples/*/lib/
+/samples/*/modules/
