@@ -1,4 +1,4 @@
-self: pl.com.tt.play.modules -> validate 1.0
+self: pl.com.tt.play.modules -> validate 1.1
 
 require:
  - play
