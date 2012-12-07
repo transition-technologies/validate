@@ -11,13 +11,13 @@ Usage
 To use validation plugin simply add it to your application (see [Installation](#Installation))
 and use validation annotations for method parameters wherever you like (not only in controllers), ex:
 ```@Required @Min @Date @Email @InPast``` etc. all will work just fine.
-Also validation with ```@CheckWith(YourCheck.class)``` or custom annotations works just fine.
+Also validation with ```@CheckWith(YourCheck.class)``` or custom annotations works.
 
 (You can find more details about them [here](http://www.playframework.org/documentation/1.2.5/validation#annotations))
 
 By default plugin will throw ```ValidationException``` (a runtime exception so you don't
 need to handle it on all code levels) that contain stock Play ```Error``` objects that you can later handle
-it however you like (even add them to stock Play validation errors using one exception method).
+however you like (even add them to stock Play validation errors using one exception method).
 
 If what you need is exactly that you can configure plugin so it does fill current validation object
 with errors instead of throwing exceptions. There are 2 ways to do it:
@@ -25,7 +25,7 @@ with errors instead of throwing exceptions. There are 2 ways to do it:
 * Set ```validation.throwException``` property in ```application.conf```<br>
 This will make it default for every validated method in your app
 
-* Use ```@Validate``` annotation on validated method with ```throwException``` parameter<br>
+* Use ```@Validate``` annotation on validated method with ```throwException``` parameter set to false<br>
 This will override default or property configured behavior for this single method. Just in case you need it.
 
 Installation
@@ -51,4 +51,12 @@ all these parameters on runtime and check if they conform validation requirement
 
 Validation is processed using exactly same mechanisms as stock Play validation, so your validators will work
 exactly like they work in controllers.
+
+Changelog
+---------
+
+* 1.0 - Initial release
+* 1.1 - Add support to fill Play validation from ValidationException
+* 1.1.1 - Fix ClassNotFound from Javassist when trying to resolve project classes
+
 
