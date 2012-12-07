@@ -11,6 +11,8 @@ import play.classloading.ApplicationClasses.ApplicationClass
 import play.data.validation.Validation
 
 import java.lang.reflect.Method
+import javassist.runtime.Desc
+import play.Logger
 
 /**
  *
@@ -24,6 +26,12 @@ public class ValidatePlugin extends PlayPlugin {
     public void enhance(ApplicationClass applicationClass)
     throws Exception {
         enhancer.enhanceThisClass(applicationClass)
+    }
+
+    @Override
+    void onLoad() {
+        Logger.debug("Configuring Javassist to use context classloader");
+        Desc.useContextClassLoader = true
     }
 
     /**
