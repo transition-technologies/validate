@@ -55,8 +55,8 @@ exactly like they work in controllers.
 Changelog
 ---------
 
-1.0 - Initial release
-1.1 - Add support to fill Play validation from ValidationException
-1.1.1 - Fix ClassNotFound from Javassist when trying to resolve project classes
+* 1.0 - Initial release
+* 1.1 - Add support to fill Play validation from ValidationException
+* 1.1.1 - Fix ClassNotFound from Javassist when trying to resolve project classes
 
 
