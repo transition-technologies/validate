@@ -52,3 +52,11 @@ all these parameters on runtime and check if they conform validation requirement
 Validation is processed using exactly same mechanisms as stock Play validation, so your validators will work
 exactly like they work in controllers.
 
+Changelog
+---------
+
+1.0 - Initial release
+1.1 - Add support to fill Play validation from ValidationException
+1.1.1 - Fix ClassNotFound from Javassist when trying to resolve project classes
+
+
