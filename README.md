@@ -34,7 +34,7 @@ Add repository and dependency to your dependencies.yml:
   
     require:
 		- play
-		- pl.com.tt.play.modules -> validate 1.1
+		- pl.com.tt.play.modules -> validate 1.1.1
 	repositories:
 		- pl.com.tt.play.modules:
 			type:       http
