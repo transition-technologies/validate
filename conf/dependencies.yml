@@ -2,4 +2,4 @@ self: pl.com.tt.play.modules -> validate 1.1.1
 
 require:
  - play
- - org.codehaus.groovy -> groovy [1.8,1.9[
+ - org.codehaus.groovy -> groovy-all [1.8,)

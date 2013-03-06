@@ -22,8 +22,13 @@
         </fileset>
     </path>
 
+	<path id="full.classpath">
+		<path refid="project.classpath"/>
+		<path refid="play.classpath"/>
+	</path>
+	
     <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc"
-             classpathref="project.classpath"/>
+             classpathref="full.classpath"/>
 
 
     <target name="build" depends="check">
@@ -51,10 +56,10 @@
             <javac source="1.5" target="1.5"/>
         </groovyc>
 
-        <jar destfile="lib/validate.jar" basedir="tmp/classes">
+        <jar destfile="lib/play-validate.jar" basedir="tmp/classes">
             <manifest>
                 <section name="Play">
-                    <attribute name="Specification-Title" value="Groovy"/>
+                    <attribute name="Specification-Title" value="validate"/>
                 </section>
             </manifest>
         </jar>
